@@ -1,0 +1,22 @@
+# Binaries & Build Outputs
+/bin/
+*.o
+*.so
+*.dylib
+*.exe
+*.test
+
+# Logs & Temp files
+*.log
+/tmp/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Go dependencies / coverage
+coverage.out
+coverage.html

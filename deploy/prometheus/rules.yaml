@@ -1,0 +1,32 @@
+groups:
+  - name: cascadeshield_alerts
+    rules:
+      - alert: CascadeRiskCritical
+        expr: cascadeshield_node_risk_score > 0.85
+        for: 30s
+        labels:
+          severity: critical
+          system: cascadeshield
+        annotations:
+          summary: "Critical cascading failure risk detected for service {{ $labels.service }}"
+          description: "Monte Carlo simulation predicted high probability of cascading failure originating from service {{ $labels.service }} (risk score: {{ $value | printf \"%.2f\" }})."
+
+      - alert: ShieldActive
+        expr: cascadeshield_shield_active > 0
+        for: 10s
+        labels:
+          severity: warning
+          system: cascadeshield
+        annotations:
+          summary: "Autonomous load shedding active on edge {{ $labels.source }} -> {{ $labels.target }}"
+          description: "CascadeShield has automatically shed traffic from {{ $labels.source }} to {{ $labels.target }} to prevent cascading system collapse."
+
+      - alert: eBPFEventDrops
+        expr: cascadeshield_ebpf_events_per_second == 0
+        for: 1m
+        labels:
+          severity: warning
+          system: cascadeshield
+        annotations:
+          summary: "No eBPF events detected on ring buffer"
+          description: "CascadeShield eBPF event reader throughput has dropped to zero events/sec for over 1 minute."

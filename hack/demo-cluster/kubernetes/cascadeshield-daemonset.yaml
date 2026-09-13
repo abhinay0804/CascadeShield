@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: cascadeshield
+  namespace: cascadeshield-demo
+  labels:
+    app: cascadeshield
+spec:
+  selector:
+    matchLabels:
+      app: cascadeshield
+  template:
+    metadata:
+      labels:
+        app: cascadeshield
+    spec:
+      hostPID: true
+      hostNetwork: true
+      containers:
+      - name: cascadeshield
+        image: cascadeshield/agent:latest
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN", "SYS_RESOURCE", "NET_ADMIN", "BPF"]
+        volumeMounts:
+        - name: sys-debug
+          mountPath: /sys/kernel/debug
+          readOnly: true
+        - name: bpf-fs
+          mountPath: /sys/fs/bpf
+        env:
+        - name: PROMETHEUS_PORT
+          value: "9090"
+      volumes:
+      - name: sys-debug
+        hostPath:
+          path: /sys/kernel/debug
+      - name: bpf-fs
+        hostPath:
+          path: /sys/fs/bpf

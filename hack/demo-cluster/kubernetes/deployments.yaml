@@ -1,0 +1,205 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: cascadeshield-demo
+  labels:
+    app: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: cascadeshield/gateway:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: GATEWAY_PORT
+          value: "8080"
+        - name: AUTH_URL
+          value: "http://auth:8081"
+        - name: ORDERS_URL
+          value: "http://orders:8082"
+        - name: ANALYTICS_URL
+          value: "http://analytics:8085"
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: cascadeshield-demo
+  labels:
+    app: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth
+        image: cascadeshield/auth:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8081
+        env:
+        - name: AUTH_PORT
+          value: "8081"
+        - name: AUTH_LATENCY_MS
+          value: "10"
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders
+  namespace: cascadeshield-demo
+  labels:
+    app: orders
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+      - name: orders
+        image: cascadeshield/orders:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8082
+        env:
+        - name: ORDERS_PORT
+          value: "8082"
+        - name: ORDERS_LATENCY_MS
+          value: "30"
+        - name: INVENTORY_URL
+          value: "http://inventory:8083"
+        - name: PAYMENTS_URL
+          value: "http://payments:8084"
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory
+  namespace: cascadeshield-demo
+  labels:
+    app: inventory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+    spec:
+      containers:
+      - name: inventory
+        image: cascadeshield/inventory:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8083
+        env:
+        - name: INVENTORY_PORT
+          value: "8083"
+        - name: INVENTORY_LATENCY_MS
+          value: "20"
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments
+  namespace: cascadeshield-demo
+  labels:
+    app: payments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments
+  template:
+    metadata:
+      labels:
+        app: payments
+    spec:
+      containers:
+      - name: payments
+        image: cascadeshield/payments:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8084
+        env:
+        - name: PAYMENTS_PORT
+          value: "8084"
+        - name: PAYMENTS_LATENCY_MS
+          value: "100"
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics
+  namespace: cascadeshield-demo
+  labels:
+    app: analytics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analytics
+  template:
+    metadata:
+      labels:
+        app: analytics
+    spec:
+      containers:
+      - name: analytics
+        image: cascadeshield/analytics:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8085
+        env:
+        - name: ANALYTICS_PORT
+          value: "8085"
+        - name: ANALYTICS_LATENCY_MS
+          value: "50"
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
