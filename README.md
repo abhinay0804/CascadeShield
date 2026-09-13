@@ -130,6 +130,13 @@ CascadeShield runs as a lightweight Linux daemon with zero sidecar proxy overhea
 - Ships with production-ready Grafana Dashboard JSON (`deploy/grafana/dashboard.json`) and Alerting Rules (`deploy/prometheus/rules.yaml`).
 - Features a **3-Panel Terminal UI** (`charmbracelet/bubbletea`) rendering ASCII DAG graphs, service risk progress bars, and execution health.
 
+### 7. ☸️ Kubernetes Production Deployment Design (DaemonSet Architecture)
+> **Note on Deployment Design:** CascadeShield's production deployment model for Kubernetes is designed as a **node-level DaemonSet** (`hack/demo-cluster/kubernetes/cascadeshield-daemonset.yaml`). While local development runs CascadeShield directly as a host binary with `sudo`, production Kubernetes clusters deploy one agent pod per physical/virtual node.
+- **`hostPID: true`**: Allows inspecting `/proc/PID/cgroup` across container runtimes on the node to map sockets to K8s Pods.
+- **`hostNetwork: true`**: Exposes Prometheus metrics on the node's host network (`:9090`).
+- **Privileged eBPF Capabilities**: Utilizes `CAP_BPF`, `CAP_PERFMON`, `CAP_SYS_ADMIN`, and `CAP_NET_ADMIN` to attach eBPF kprobes to kernel TCP sockets.
+- **Host Volume Mounts**: Mounts `/sys/kernel/debug` (debugfs) and `/sys/fs/bpf` (BPF filesystem) from the host.
+
 ---
 
 ## ⚡ Quick Start Guide

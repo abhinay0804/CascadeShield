@@ -270,6 +270,25 @@ Comprises 6 Go HTTP microservices (`gateway`, `auth`, `orders`, `inventory`, `pa
 
 ---
 
+### 4.8 Kubernetes Production Deployment Design (DaemonSet Architecture)
+
+> **Deployment Design Specification:** CascadeShield's Kubernetes production architecture is designed as a **node-level DaemonSet**. While local development runs CascadeShield directly as a host daemon binary, production Kubernetes clusters deploy one agent pod per physical/virtual node.
+
+#### DaemonSet Pod Specifications (`hack/demo-cluster/kubernetes/cascadeshield-daemonset.yaml`)
+To perform kernel-level eBPF connection probing and process-to-pod resolution across container boundaries, the production deployment design requires specific host privileges:
+
+1. **`hostPID: true`**: Grants access to the host's `/proc` filesystem, allowing CascadeShield to inspect `/proc/PID/cgroup` for all container processes running on the host node.
+2. **`hostNetwork: true`**: Binds the Prometheus metrics exporter directly to host network interfaces (`:9090`).
+3. **Privileged Security Context & Capabilities**:
+   - `securityContext.privileged: true` (or capabilities `CAP_BPF`, `CAP_PERFMON`, `CAP_SYS_ADMIN`, `CAP_NET_ADMIN`).
+   - Required for loading C eBPF bytecode into kernel memory and attaching kprobes/tracepoints.
+4. **Required Volume Mounts**:
+   - `/sys/kernel/debug` mounted from host (`hostPath`) for debugfs access.
+   - `/sys/fs/bpf` mounted from host (`hostPath`) for BPF filesystem map pinning across restarts.
+
+
+---
+
 ## 5. Zero Hardcoding Policy Enforcement
 
 CascadeShield enforces a **Strict Zero Hardcoding Policy**. Every tunable parameter is declared in a dedicated package `Config` struct with a `DefaultConfig()` constructor:
