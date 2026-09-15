@@ -346,9 +346,9 @@
   - ✅ Prometheus server starts and serves on `--metrics-addr`; `updateGauges()` called on each scrape
   - ✅ `/healthz` endpoint returns 200 OK for liveness probes
 - [x] **3.8** Benchmark: metrics pipeline throughput (target: 100K events/s)
-  - ✅ `RecordConnect()`: **32.8M ops/sec** — 328× headroom (0 allocs/op)
-  - ✅ `Aggregate()`: **59.5M ops/sec** — 595× headroom (0 allocs/op)
-  - ✅ `RecordNs()` histogram: **46.2M ops/sec** — 462× headroom (0 allocs/op)
+  - ✅ `RecordConnect()`: **~9.0M ops/sec** (111.2 ns/op) — 90× headroom (0 allocs/op)
+  - ✅ `Aggregate()`: **~16.9M ops/sec** (58.98 ns/op) — 169× headroom (0 allocs/op)
+  - ✅ `RecordNs()` histogram: **~12.9M ops/sec** (77.40 ns/op) — 129× headroom (0 allocs/op)
 - [x] **3.9** Unit tests for sliding window edge cases
   - ✅ Empty window, single value, concurrent race, slide eviction, clamp, reset — 11 tests total
   - ✅ `go test -race ./pkg/metrics/...`: PASS, 0 data races

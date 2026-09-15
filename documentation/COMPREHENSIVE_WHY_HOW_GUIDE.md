@@ -113,7 +113,7 @@ CascadeShield is structured into 6 pipeline layers:
 ### 4.1 Phase 1: Kernel Eye (eBPF Probes)
 
 #### Why eBPF?
-User-space proxies (like Envoy or Istio sidecars) introduce 2–5ms latency per hop and consume substantial CPU/memory per pod. eBPF runs bytecode directly inside the Linux kernel at near-zero overhead (< 0.5% CPU), capturing socket events before they reach user space.
+User-space proxies (like Envoy or Istio sidecars) introduce 2–5ms latency per hop and consume substantial CPU/memory per pod. eBPF runs bytecode directly inside the Linux kernel with minimal kernel overhead via ring buffer zero-copy telemetry, capturing socket events before they reach user space.
 
 #### Code Architecture (`bpf/probes.c`)
 Four eBPF hooks are compiled into a single ELF object using `bpf2go`:

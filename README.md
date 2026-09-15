@@ -42,7 +42,7 @@ Traditional observability tools (Prometheus alerts, Datadog, Grafana dashboards)
 | Feature | Traditional Observability (Prometheus/Grafana) | CascadeShield |
 |---|---|---|
 | **Detection Speed** | Reactive (15s–60s scrape intervals) | **Real-Time Kernel Probing** (< 1s detection) |
-| **Overhead** | Sidecar proxies add 2ms–5ms hop latency | **Zero-Proxy eBPF** (< 0.5% CPU, 0ms hop latency) |
+| **Overhead** | Sidecar proxies add 2ms–5ms hop latency | **Zero-Proxy eBPF** (minimal kernel overhead via ring buffer zero-copy telemetry, 0ms hop latency) |
 | **Failure Awareness** | Historical metric thresholds (CPU > 80%) | **Predictive Monte Carlo Simulation** (TTF prediction) |
 | **Remediation** | Manual human intervention / auto-scaling | **Autonomous Min-Cut Traffic Shedding** |
 | **Safety Guardrails** | All-or-nothing circuit breaking | **Gradual Thermostat Ramp-Up/Down Hysteresis** |

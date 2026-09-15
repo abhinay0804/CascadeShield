@@ -387,15 +387,13 @@ Without Phase 3's real-time metrics, Phase 4 would have nothing meaningful to si
 
 ## Benchmark Results
 
-The metrics pipeline was benchmarked on the development machine (Intel i7-13650HX, 20 cores):
-
 | Operation | Speed | Allocs/op | vs 100K events/s target |
 |---|---|---|---|
-| `Window.RecordConnect()` | 32.8M ops/sec | 0 | **328× headroom** |
-| `Window.Aggregate()` | 59.5M ops/sec | 0 | **595× headroom** |
-| `Histogram.RecordNs()` | 46.2M ops/sec | 0 | **462× headroom** |
+| `Window.RecordConnect()` | ~9.0M ops/sec (111.2 ns/op) | 0 B/op | **90× headroom** |
+| `Window.Aggregate()` | ~16.9M ops/sec (58.98 ns/op) | 0 B/op | **169× headroom** |
+| `Histogram.RecordNs()` | ~12.9M ops/sec (77.40 ns/op) | 0 B/op | **129× headroom** |
 
-**Zero allocations per operation** means the garbage collector is never triggered by the hot path. This is essential for low-latency eBPF event processing — GC pauses would cause event backpressure and ring buffer drops.
+**Zero allocations per operation (`0 B/op, 0 allocs/op`)** means the garbage collector is never triggered by the hot path. This is essential for low-latency eBPF event processing — GC pauses would cause event backpressure and ring buffer drops.
 
 ---
 
