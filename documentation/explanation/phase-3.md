@@ -1,5 +1,5 @@
 # Phase 3: Metrics Engine — The Bookkeeper
-## A Beginner's Guide (For Abhinay)
+## A Beginner's Guide
 
 ---
 
