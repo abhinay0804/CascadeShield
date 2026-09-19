@@ -2,8 +2,8 @@
 ## The Ultimate "Why & How" Engineering Reference Document
 
 > **System Name:** CascadeShield  
-> **Repository:** `/mnt/shared/Projects/CascadeShield/`  
-> **Author & Design:** Engineering Team  
+> **Repository:** `github.com/abhinay0804/CascadeShield`  
+> **Author & Design:** Nama Abhinay  
 > **Scope:** Comprehensive end-to-end breakdown of the physics, mathematics, architecture, code design, eBPF probes, Monte Carlo simulation, autonomous remediation, and operational telemetry of CascadeShield.
 
 ---
