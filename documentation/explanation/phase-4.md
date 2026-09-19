@@ -1,5 +1,5 @@
 # Phase 4: The Oracle — A Beginner's Guide
-## Monte Carlo Cascade Failure Simulation (For Abhinay)
+## Monte Carlo Cascade Failure Simulation
 
 ---
 
