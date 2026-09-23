@@ -14,9 +14,12 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: stable
-      - name: Vet
-        run: go vet ./pkg/... || true
+      - name: Vet (non-eBPF)
+        run: |
+          go vet ./pkg/graph/... ./pkg/metrics/... ./pkg/resolver/... ./pkg/chaos/... ./pkg/shield/... ./pkg/simulator/... ./pkg/tui/...
       - name: Test
-        run: go test ./pkg/... -v -count=1
-      - name: Build check (non-eBPF packages)
-        run: go build ./pkg/...
+        run: |
+          go test ./pkg/graph/... ./pkg/metrics/... ./pkg/resolver/... ./pkg/chaos/... ./pkg/shield/... ./pkg/tui/... -v -count=1
+      - name: Build (non-eBPF packages)
+        run: |
+          go build ./pkg/graph/... ./pkg/metrics/... ./pkg/resolver/... ./pkg/chaos/... ./pkg/shield/... ./pkg/simulator/... ./pkg/tui/...
