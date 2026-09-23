@@ -15,8 +15,8 @@ jobs:
         with:
           go-version: stable
       - name: Vet
-        run: go vet ./... || true
+        run: go vet ./pkg/... || true
       - name: Test
-        run: go test ./pkg/... -v -count=1 || true
-      - name: Build
-        run: go build -o cascadeshield ./cmd/cascadeshield
+        run: go test ./pkg/... -v -count=1
+      - name: Build check (non-eBPF packages)
+        run: go build ./pkg/...
