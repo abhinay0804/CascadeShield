@@ -1,3 +1,4 @@
+![CI](https://github.com/abhinay0804/CascadeShield/actions/workflows/ci.yml/badge.svg)
 <div align="center">
 
 # 🛡️ CascadeShield
