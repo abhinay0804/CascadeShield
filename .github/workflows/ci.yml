@@ -14,6 +14,10 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: stable
+      - name: Generate eBPF stub
+        run: |
+          # Create minimal stub .o file for go:embed (eBPF bytecode needs kernel to compile)
+          echo -n "stub" > pkg/probe/probes_x86_bpfel.o
       - name: Test
         run: go test ./pkg/graph/... ./pkg/metrics/... ./pkg/resolver/... ./pkg/chaos/... ./pkg/shield/... ./pkg/tui/... -v -count=1
       - name: Build
